@@ -37,5 +37,6 @@
     "jest": "^24.1.0",
     "serverless": "^1.37.1"
   },
-  "dependencies": {}
+  "dependencies": {},
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
