@@ -10,7 +10,7 @@ That means that a simple Serverless template could reference zero AWS resource i
 
 ## Installation
 
-1. Run `npm i @steveperkins/serverless-find-resource --save-dev`. Of course you also need Serverless to be installed because this is a Serverless plugin.
+1. Run `npm i @steveperkins/serverless-find-resource@0.0.1 --save-dev`. Of course you also need Serverless to be installed because this is a Serverless plugin.
 2. In your Serverless template add `serverless-find-resource` to your `plugins` section:
 
 ```
