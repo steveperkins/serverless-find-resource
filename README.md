@@ -10,16 +10,15 @@ That means that a simple Serverless template could reference zero AWS resource i
 
 ## Installation
 
-In your `package.json`'s `dependencies` or `devDependencies` section, add `"serverless-find-resource": "https://github.com/steveperkins/serverless-find-resource#master"`, then run `npm install`.
-
-Eventually I'll set this up as an NPM package so it can be installed with just `npm i serverless-find-resource`.
-
-In your Serverless template add `serverless-find-resource` to your `plugins` section:
-
+1. Run `npm i serverless-find-resource --save-dev`. Of course you also need Serverless to be installed because this is a Serverless plugin.
+2. In your Serverless template add `serverless-find-resource` to your `plugins` section:
 ```
 plugins:
   - serverless-find-resource
 ```
+
+### Early Access
+If you don't want to wait for releases, you can get bleeding-edge updates by adding `"serverless-find-resource": "https://github.com/steveperkins/serverless-find-resource#master"` to your `package.json`'s `dependencies` or `devDependencies`.
 
 ## Usage
 
@@ -58,3 +57,9 @@ ${find:CognitoUserPoolId}
 ```
 
 That makes your Serverless template very clean for shared resources like Cognito User Pools, RDS databases, API Gateways, etc.
+
+# Supported Resource Types
+
+| Type | Key | Returns | Example |
+|-------|-------|------|------|
+| Cognito User Pool | `CognitoUserPoolId` | Cognito User Pool's ID | `${find:CognitoUserPoolId:yourUserPoolName}`
