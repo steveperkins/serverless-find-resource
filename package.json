@@ -1,6 +1,6 @@
 {
-  "name": "serverless-find-resource",
-  "version": "1.0.0",
+  "name": "@steveperkins/serverless-find-resource",
+  "version": "1.0.0.1",
   "description": "Use AWS resource names instead of hardcoded ARNs and IDs in your Serverless templates",
   "main": "lib/index.js",
   "directories": {
@@ -24,7 +24,8 @@
     "aws arn",
     "arn instead of name",
     "import",
-    "get cognito id"
+    "get cognito id",
+    "cognito pool id"
   ],
   "author": "Steve Perkins",
   "license": "MIT",
@@ -38,5 +39,7 @@
     "serverless": "^1.37.1"
   },
   "dependencies": {},
-  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  }
 }
