@@ -1,7 +1,7 @@
 {
-  "name": "serverless-resolve-lambda-layers",
+  "name": "serverless-find-resource",
   "version": "1.0.0",
-  "description": "Specify Lambda Layers by their name rather than ARNs in your Serverless templates",
+  "description": "Use AWS resource names instead of hardcoded ARNs and IDs in your Serverless templates",
   "main": "lib/index.js",
   "directories": {
     "lib": "lib"
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/jjmaldonis/serverless-resolve-lambda-layers.git"
+    "url": "git+https://github.com/steveperkins/serverless-find-resource.git"
   },
   "keywords": [
     "serverless",
@@ -21,23 +21,21 @@
     "serverless plugins",
     "amazon web services",
     "aws",
-    "aws lambda layers",
-    "lambda layers",
-    "layers",
-    "import"
+    "aws arn",
+    "arn instead of name",
+    "import",
+    "get cognito id"
   ],
-  "author": "Jason Maldonis",
+  "author": "Steve Perkins",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jjmaldonis/serverless-resolve-lambda-layers/issues"
+    "url": "https://github.com/steveperkins/serverless-find-resource/issues"
   },
-  "homepage": "https://github.com/jjmaldonis/serverless-resolve-lambda-layers",
+  "homepage": "https://github.com/steveperkins/serverless-find-resource",
   "devDependencies": {
     "coveralls": "^3.0.3",
     "jest": "^24.1.0",
     "serverless": "^1.37.1"
   },
-  "dependencies": {
-    "chalk": "^2.4.2"
-  }
+  "dependencies": {}
 }

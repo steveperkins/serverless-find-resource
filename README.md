@@ -1,38 +1,60 @@
-# serverless-resolve-lambda-layers
+# serverless-find-resource
 
-This Serverless plugin allows you to specify lambda layers by their name rather than their ARN in Serverless templates.
+This Serverless plugin replaces AWS resource names with their ARNs or IDs in your Serverless template.
 
-AWS's Lambda Layers functionality provides a great way to store common dependencies, but deployment processes that create and use those dependencies have many issues that partially negatate their usefulness. This is in large part due to the how the layer versioning works. This plugin allows you to specify the layer name rather than the layer ARN in your Serverless templates, which allows your deployment process to sidestep many of the issues.
+Some Serverless resource references have to be hardcoded if they're created outside of the current Serverless template - even if they're created by another Serverless template in the same project. In multi-template projects, this results in hardcoding resource IDs or creating lots of exports just to reference AWS resource ARNs/IDs. As a result, your Serverless templates lose flexibility and require a bunch of changes when just one resource changes. For example, if you expect your system's Cognito User Pool to be manually created but still want to attach a pre-token-generation trigger to it, you have to update your template in every environment to point to the correct Cognito User Pool ID.
+
+This Serverless plugin fixes that. Instead of hardcoding resource ARNs and IDs, you can use your resource _names_ in your Serverless templates, and this plugin will replace it with the appropriate resource ARN/ID by inspecting the resources in your AWS account (via the CLI). Even better, if there's only one resource of the given type, Serverless Find Resource can assume that you need that resource's ARN/ID unless you specify a name.
+
+That means that a simple Serverless template could reference zero AWS resource identifiers, making it far more flexible and portable across environments.
 
 ## Installation
 
-In your `package.json`'s `dependencies` or `devDependencies` section, add `"serverless-resolve-lambda-layers": "https://github.com/jjmaldonis/serverless-resolve-lambda-layers#master"`, then run `npm install`.
+In your `package.json`'s `dependencies` or `devDependencies` section, add `"serverless-find-resource": "https://github.com/steveperkins/serverless-find-resource#master"`, then run `npm install`.
 
-## Usage
+Eventually I'll set this up as an NPM package so it can be installed with just `npm i serverless-find-resource`.
 
-In your serverless template include the following in your `plugins` section:
+In your Serverless template add `serverless-find-resource` to your `plugins` section:
 
 ```
 plugins:
-  - serverless-resolve-lambda-layers
+  - serverless-find-resource
 ```
 
-Then you can replace your lambda layer ARNs with their names.
+## Usage
 
-So replace this
+Replace your hardcoded IDs with `find:` variables anywhere in your Serverless template except region, stage, and credentials.
 
-```
-layers:
-  - arn:aws:lambda:us-east-1:000000000000:layer:common:1
-  - arn:aws:lambda:us-east-1:000000000000:layer:utils:1
-```
-
-with this
+For example, this:
 
 ```
-layers:
-  - common
-  - utils
+provider:
+  name: aws
+  stage: ${self:custom.stage}
+  region: ${self:custom.region}
+  environment:
+    USER_POOL_ID: ${findArn:CognitoUserPoolId}
 ```
 
-That's it!
+becomes this:
+
+```
+provider:
+  name: aws
+  stage: ${self:custom.stage}
+  region: ${self:custom.region}
+  environment:
+    USER_POOL_ID: ${find:CognitoUserPoolId:yourUserPoolName}
+```
+
+Serverless Find Resource will now replace `${find:CognitoUserPoolId}` with the ID of your AWS account's user pool named `yourUserPoolName`.
+
+## Finding Resources by Default
+
+If you have only one of a resource type in your AWS account, you don't even have to provide it's name - Serverless Find Resource will just use that resource. The syntax is very straightforward - you just don't include the name:
+
+```
+${find:CognitoUserPoolId}
+```
+
+That makes your Serverless template very clean for shared resources like Cognito User Pools, RDS databases, API Gateways, etc.
