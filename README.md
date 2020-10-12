@@ -15,7 +15,7 @@ That means that a simple Serverless template could reference zero AWS resource i
 
 ```
 plugins:
-  - "@steveperkins/serverless-find-resource
+  - "@steveperkins/serverless-find-resource"
 ```
 
 ### Early Access
