@@ -10,12 +10,12 @@ That means that a simple Serverless template could reference zero AWS resource i
 
 ## Installation
 
-1. Run `npm i @steveperkins/serverless-find-resource@1.0.1 --save-dev`. Of course you also need Serverless to be installed because this is a Serverless plugin.
+1. Run `npm i @steveperkins/serverless-find-resource --save-dev`. Of course you also need Serverless to be installed because this is a Serverless plugin.
 2. In your Serverless template add `serverless-find-resource` to your `plugins` section:
 
 ```
 plugins:
-  - serverless-find-resource
+  - "@steveperkins/serverless-find-resource
 ```
 
 ### Early Access
@@ -34,7 +34,7 @@ provider:
   stage: ${self:custom.stage}
   region: ${self:custom.region}
   environment:
-    USER_POOL_ID: ${findArn:CognitoUserPoolId}
+    USER_POOL_ID: us-east-1_D93eA2
 ```
 
 becomes this:
@@ -52,7 +52,7 @@ Serverless Find Resource will now replace `${find:CognitoUserPoolId}` with the I
 
 ## Finding Resources by Default
 
-If you have only one of a resource type in your AWS account, you don't even have to provide it's name - Serverless Find Resource will just use that resource. The syntax is very straightforward - you just don't include the name:
+If you have only one of a resource type in your AWS account, you don't even have to provide a name - Serverless Find Resource will just use that resource. The syntax is very straightforward - you just don't include the name:
 
 ```
 ${find:CognitoUserPoolId}
