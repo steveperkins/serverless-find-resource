@@ -10,6 +10,8 @@ That means that a simple Serverless template could reference zero AWS resource i
 
 ## Installation
 
+`serverless-find-resource` is available on npm: [https://www.npmjs.com/package/serverless-find-resource](https://www.npmjs.com/package/serverless-find-resource).
+
 1. Run `npm i serverless-find-resource --save-dev`. Of course you also need Serverless to be installed because this is a Serverless plugin.
 2. In your Serverless template add `serverless-find-resource` to your `plugins` section:
 
@@ -65,3 +67,4 @@ That makes your Serverless template very clean for shared resources like Cognito
 | Type              | Key                 | Returns                | Example                                      |
 | ----------------- | ------------------- | ---------------------- | -------------------------------------------- |
 | Cognito User Pool | `CognitoUserPoolId` | Cognito User Pool's ID | `${find:CognitoUserPoolId:yourUserPoolName}` |
+| Lambda Layer      | `LambdaLayerArn`    | Latest layer ARN       | `${find:LambdaLayerArn:yourLayerName}`       |

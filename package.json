@@ -1,10 +1,10 @@
 {
-  "name": "@steveperkins/serverless-find-resource",
-  "version": "1.0.4",
+  "name": "serverless-find-resource",
+  "version": "1.0.1",
   "description": "Use AWS resource names instead of hardcoded ARNs and IDs in your Serverless templates",
-  "main": "lib/index.js",
+  "main": "src/index.js",
   "directories": {
-    "lib": "lib"
+    "resources": "src/resources"
   },
   "scripts": {
     "test": "jest --env node --coverage",
@@ -35,11 +35,10 @@
   "homepage": "https://github.com/steveperkins/serverless-find-resource",
   "devDependencies": {
     "coveralls": "^3.0.3",
+    "eslint": "^7.11.0",
+    "eslint-plugin-import": "^2.22.1",
     "jest": "^24.1.0",
     "serverless": "^1.37.1"
   },
-  "dependencies": {},
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  }
+  "dependencies": {}
 }
