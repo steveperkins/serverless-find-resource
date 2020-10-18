@@ -23,9 +23,17 @@
     "aws",
     "aws arn",
     "arn instead of name",
+    "name instead of arn",
     "import",
     "get cognito id",
-    "cognito pool id"
+    "cognito pool id",
+    "lambda layer",
+    "replace name",
+    "get id",
+    "get role",
+    "get role arn",
+    "get role id",
+    "iam by name"
   ],
   "author": "Steve Perkins",
   "license": "MIT",

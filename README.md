@@ -68,3 +68,5 @@ That makes your Serverless template very clean for shared resources like Cognito
 | ----------------- | ------------------- | ---------------------- | -------------------------------------------- |
 | Cognito User Pool | `CognitoUserPoolId` | Cognito User Pool's ID | `${find:CognitoUserPoolId:yourUserPoolName}` |
 | Lambda Layer      | `LambdaLayerArn`    | Latest layer ARN       | `${find:LambdaLayerArn:yourLayerName}`       |
+| IAM Role          | `RoleArn`           | Role's ARN             | `${find:RoleArn:yourRoleName}`               |
+| IAM Role          | `RoleId`            | Role's ID              | `${find:RoleId:yourRoleName}`                |

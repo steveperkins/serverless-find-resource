@@ -1,6 +1,8 @@
 "use strict"
 const CognitoUserPoolIdFinder = require("./finders/CognitoUserPoolIdFinder")
 const LambdaLayerArnFinder = require("./finders/LambdaLayerArnFinder")
+const IamRoleArnFinder = require("./finders/IamRoleArnFinder")
+const IamRoleIdFinder = require("./finders/IamRoleIdFinder")
 
 const getCircularReplacer = () => {
   const seen = new WeakSet()
@@ -39,7 +41,9 @@ class FindResourcePlugin {
 
     this.handlers = {
       CognitoUserPoolId: new CognitoUserPoolIdFinder().find.bind(this),
-      LambdaLayerArn: new LambdaLayerArnFinder().find.bind(this)
+      LambdaLayerArn: new LambdaLayerArnFinder().find.bind(this),
+      RoleArn: new IamRoleArnFinder().find.bind(this),
+      RoleId: new IamRoleIdFinder().find.bind(this)
     };
   }
 
