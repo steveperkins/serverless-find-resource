@@ -60,13 +60,14 @@ If you have only one of a resource type in your AWS account, you don't even have
 ${find:CognitoUserPoolId}
 ```
 
-That makes your Serverless template very clean for shared resources like Cognito User Pools, RDS databases, API Gateways, etc.
+That makes your Serverless template very clean for shared resources like Cognito User Pools, RDS databases, API Gateways, etc in smaller infrastructures.
 
 # Supported Resource Types
 
 | Type              | Key                 | Returns                | Example                                      |
 | ----------------- | ------------------- | ---------------------- | -------------------------------------------- |
 | Cognito User Pool | `CognitoUserPoolId` | Cognito User Pool's ID | `${find:CognitoUserPoolId:yourUserPoolName}` |
-| Lambda Layer      | `LambdaLayerArn`    | Latest layer ARN       | `${find:LambdaLayerArn:yourLayerName}`       |
 | IAM Role          | `RoleArn`           | Role's ARN             | `${find:RoleArn:yourRoleName}`               |
 | IAM Role          | `RoleId`            | Role's ID              | `${find:RoleId:yourRoleName}`                |
+| Lambda Layer      | `LambdaLayerArn`    | Latest layer ARN       | `${find:LambdaLayerArn:yourLayerName}`       |
+| Security Group    | `SecurityGroupId`   | Group's ID             | `${find:SecurityGroupId:yourGroupName}`      |

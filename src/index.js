@@ -3,6 +3,7 @@ const CognitoUserPoolIdFinder = require("./finders/CognitoUserPoolIdFinder")
 const LambdaLayerArnFinder = require("./finders/LambdaLayerArnFinder")
 const IamRoleArnFinder = require("./finders/IamRoleArnFinder")
 const IamRoleIdFinder = require("./finders/IamRoleIdFinder")
+const Ec2SecurityGroupIdFinder = require("./finders/Ec2SecurityGroupIdFinder")
 
 const getCircularReplacer = () => {
   const seen = new WeakSet()
@@ -43,7 +44,8 @@ class FindResourcePlugin {
       CognitoUserPoolId: new CognitoUserPoolIdFinder().find.bind(this),
       LambdaLayerArn: new LambdaLayerArnFinder().find.bind(this),
       RoleArn: new IamRoleArnFinder().find.bind(this),
-      RoleId: new IamRoleIdFinder().find.bind(this)
+      RoleId: new IamRoleIdFinder().find.bind(this),
+      SecurityGroupId: new Ec2SecurityGroupIdFinder().find.bind(this)
     };
   }
 
