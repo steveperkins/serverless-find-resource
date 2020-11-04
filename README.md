@@ -52,6 +52,13 @@ provider:
 
 Serverless Find Resource will now replace `${find:CognitoUserPoolId}` with the ID of your AWS account's user pool named `yourUserPoolName`.
 
+### Spaces
+Some AWS resource names can have spaces. For example, a VPC subnet could be named something like "Private Subnet". Serverless removes all spaces before passing the value to the variable resolver, so in such cases you have to enclose the value in single quotes in order to preserve the spaces:
+
+```
+${find:SubnetId:'Private Subnet'}
+```
+
 ## Finding Resources by Default
 
 If you have only one of a resource type in your AWS account, you don't even have to provide a name - Serverless Find Resource will just use that resource. The syntax is very straightforward - you just don't include the name:
@@ -60,7 +67,7 @@ If you have only one of a resource type in your AWS account, you don't even have
 ${find:CognitoUserPoolId}
 ```
 
-That makes your Serverless template very clean for shared resources like Cognito User Pools, RDS databases, API Gateways, etc in smaller infrastructures.
+That makes your Serverless template very clean for shared resources like Cognito User Pools, RDS databases, API Gateways, etc in smaller infrastructures. Be aware that AWS might create unexpected resources on your behalf when working via the AWS UI.
 
 # Supported Resource Types
 
@@ -71,3 +78,4 @@ That makes your Serverless template very clean for shared resources like Cognito
 | IAM Role          | `RoleId`            | Role's ID              | `${find:RoleId:yourRoleName}`                |
 | Lambda Layer      | `LambdaLayerArn`    | Latest layer ARN       | `${find:LambdaLayerArn:yourLayerName}`       |
 | Security Group    | `SecurityGroupId`   | Group's ID             | `${find:SecurityGroupId:yourGroupName}`      |
+| Subnet            | `SubnetId`          | Subnet's ID            | `${find:SecurityGroupId:yourSubnetName}`     |

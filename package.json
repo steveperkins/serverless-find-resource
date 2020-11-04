@@ -1,6 +1,6 @@
 {
   "name": "serverless-find-resource",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Use AWS resource names instead of hardcoded ARNs and IDs in your Serverless templates",
   "main": "src/index.js",
   "directories": {
@@ -19,6 +19,7 @@
     "serverless framework",
     "serverless plugin",
     "serverless plugins",
+    "serverless aws",
     "amazon web services",
     "aws",
     "aws arn",
@@ -33,7 +34,13 @@
     "get role",
     "get role arn",
     "get role id",
-    "iam by name"
+    "iam by name",
+    "security group",
+    "get security group",
+    "security group by name",
+    "subnet",
+    "get subnet",
+    "subnet by name"
   ],
   "author": "Steve Perkins",
   "license": "MIT",

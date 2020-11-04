@@ -4,6 +4,7 @@ const LambdaLayerArnFinder = require("./finders/LambdaLayerArnFinder")
 const IamRoleArnFinder = require("./finders/IamRoleArnFinder")
 const IamRoleIdFinder = require("./finders/IamRoleIdFinder")
 const Ec2SecurityGroupIdFinder = require("./finders/Ec2SecurityGroupIdFinder")
+const Ec2SubnetIdFinder = require("./finders/Ec2SubnetIdFinder")
 
 const getCircularReplacer = () => {
   const seen = new WeakSet()
@@ -45,7 +46,8 @@ class FindResourcePlugin {
       LambdaLayerArn: new LambdaLayerArnFinder().find.bind(this),
       RoleArn: new IamRoleArnFinder().find.bind(this),
       RoleId: new IamRoleIdFinder().find.bind(this),
-      SecurityGroupId: new Ec2SecurityGroupIdFinder().find.bind(this)
+      SecurityGroupId: new Ec2SecurityGroupIdFinder().find.bind(this),
+      SubnetId: new Ec2SubnetIdFinder().find.bind(this)
     };
   }
 
@@ -56,7 +58,7 @@ class FindResourcePlugin {
     if (Static.this.handlers[resourceType]) {
       let resourceName;
       if (segments.length > 2) {
-        resourceName = segments[2]
+        resourceName = segments[2].replace(/'/g, "")
       }
 
       const transformed = await Static.this.handlers[resourceType](

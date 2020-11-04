@@ -19,7 +19,7 @@ class Ec2SecurityGroupIdFinder {
         {
           DryRun: false,
           Filters: [{
-            Name: "group-name",
+            Name: "tag:Name",
             Values: [name],
           }],
           MaxResults: 6
@@ -37,7 +37,7 @@ class Ec2SecurityGroupIdFinder {
         "describeSecurityGroups",
         {
           DryRun: false,
-          MaxResults: 6
+          MaxResults: 50
         }
       )
 
@@ -47,8 +47,23 @@ class Ec2SecurityGroupIdFinder {
       }
     }
     if (response.SecurityGroups && response.SecurityGroups.length) {
-      const group = response.SecurityGroups[0]
-      this.securityGroupIds[group.GroupName] = group.GroupId
+      let isFirst = true
+      for (let group of response.SecurityGroups) {
+        let groupName = ""
+        for (let tag of group.Tags) {
+          if (tag.Key == "Name") {
+            groupName = tag.Value
+            if (isFirst) {
+              name = groupName
+              isFirst = false
+            }
+            break
+          }
+        }
+        this.securityGroupIds[name] = group.GroupId
+      }
+    } else {
+      console.error("No matching security groups found")
     }
 
     return this.securityGroupIds[name]
