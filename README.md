@@ -2,7 +2,7 @@
 
 This Serverless plugin replaces AWS resource names with their ARNs or IDs in your Serverless template.
 
-Some Serverless resource references have to be hardcoded if they're created outside of the current Serverless template - even if they're created by another Serverless template in the same project. In multi-template projects, this results in hardcoding resource IDs or creating lots of exports just to reference AWS resource ARNs/IDs. As a result, your Serverless templates lose flexibility and require a bunch of changes when just one resource changes. For example, if you expect your system's Cognito User Pool to be manually created but still want to attach a pre-token-generation trigger to it, you have to update your template in every environment to point to the correct Cognito User Pool ID.
+Some Serverless resource references have to be hardcoded if they're created outside of the current Serverless template - even if they're created by another Serverless template in the same project. In multi-template projects, this results in hardcoding resource IDs or creating lots of exports just to reference AWS resource ARNs/IDs. As a result, your Serverless templates lose flexibility and require a bunch of changes when just one resource changes. For example, if you expect your system's Cognito User Pool to be manually created but still want to attach a pre-token-generation trigger to it, you have to update your template in every environment to point to the correct Cognito User Pool ID. If you need to switch between dev/QA/prod accounts, you have to update any account-specific IDs.
 
 This Serverless plugin fixes that. Instead of hardcoding resource ARNs and IDs, you can use your resource _names_ in your Serverless templates, and this plugin will replace it with the appropriate resource ARN/ID by inspecting the resources in your AWS account (via the CLI). Even better, if there's only one resource of the given type, Serverless Find Resource can assume that you need that resource's ARN/ID unless you specify a name.
 
@@ -78,4 +78,5 @@ That makes your Serverless template very clean for shared resources like Cognito
 | IAM Role          | `RoleId`            | Role's ID              | `${find:RoleId:yourRoleName}`                |
 | Lambda Layer      | `LambdaLayerArn`    | Latest layer ARN       | `${find:LambdaLayerArn:yourLayerName}`       |
 | Security Group    | `SecurityGroupId`   | Group's ID             | `${find:SecurityGroupId:yourGroupName}`      |
-| Subnet            | `SubnetId`          | Subnet's ID            | `${find:SecurityGroupId:yourSubnetName}`     |
+| Subnet            | `SubnetId`          | Subnet's ID            | `${find:SubnetId:yourSubnetName}`            |
+| API Gateway       | `ApiGatewayId`      | API Gateway's ID       | `${find:ApiGatewayId:yourApiGatewayName}`    |
