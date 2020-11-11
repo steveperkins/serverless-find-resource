@@ -22,13 +22,17 @@ class Ec2SubnetIdFinder {
             Name: "tag:Name",
             Values: [name],
           }],
-          MaxResults: 5
+          MaxResults: 50
         }
       )
-    
+
       if (response.err) {
-        console.error("Could not retrieve EC2 subnet " + name + ": " + err)
+        console.error(`Could not retrieve EC2 subnet ${name}: ${response.err}`)
         return
+      }
+      if (!response.Subnets || response.Subnets.length < 1) {
+        console.error("No subnets found")
+
       }
     } else {
       // There should be only one subnet if the user has not provided a name
@@ -46,7 +50,7 @@ class Ec2SubnetIdFinder {
       )
 
       if (response.err) {
-        console.error("Could not retrieve EC2 subnets: " + err)
+        console.error(`Could not retrieve EC2 subnets: ${err}`)
         return
       }
     }
@@ -64,7 +68,7 @@ class Ec2SubnetIdFinder {
             break
           }
         }
-        this.subnetIds[subnetName] = subnet.SubnetId
+        this.subnetIds[name] = subnet.SubnetId
       }
     }
 
