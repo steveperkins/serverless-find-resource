@@ -20,7 +20,7 @@ class CognitoUserPoolIdFinder {
 
     const poolKeys = Object.keys(this.userPools)
     // If there's only one user pool and no name was provided, just use the only one in AWS
-    if (!name && poolKeys.length == 1) {
+    if (!name && poolKeys.length > 0) {
       return this.userPools[poolKeys[0]]
     } else {
       return this.userPools[name]

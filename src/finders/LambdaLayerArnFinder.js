@@ -23,12 +23,19 @@ class LambdaLayerArnFinder {
     }
 
     const layerKeys = Object.keys(this.lambdaLayers);
-    // If there's only one layer and no name was provided, just use the only one in AWS
-    if (!name && layerKeys.length == 1) {
-      return this.lambdaLayers[layerKeys[0]]
-    } else {
-      return this.lambdaLayers[name]
+    if (layerKeys.length <= 0) {
+      console.error("No layers found")
+      return
     }
+
+    // If no name was provided, just use the only one in AWS
+    let layer
+    if (name) {
+      layer = this.lambdaLayers[name]
+    } else {
+      layer = this.lambdaLayers[layerKeys[0]]
+    }
+    return layer
   }
 }
 

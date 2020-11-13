@@ -3,36 +3,8 @@ class Ec2SecurityGroupIdFinder {
   async find(name) {
 
     if (!this.securityGroupIds) {
-      this.securityGroupIds = {}
-    }
-
-    let response
-    if (name) {
-      if (this.securityGroupIds[name]) {
-        return this.securityGroupIds[name]
-      }
-
       // See for available functions https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/EC2.html
-      response = await this.provider.request(
-        "EC2",
-        "describeSecurityGroups",
-        {
-          DryRun: false,
-          Filters: [{
-            Name: "tag:Name",
-            Values: [name],
-          }],
-          MaxResults: 6
-        }
-      )
-    
-      if (response.err) {
-        console.error("Could not retrieve AWS EC2 security group " + name + ": " + err)
-        return
-      }
-    } else {
-      // There should be only one group if the user has not provided a name
-      response = await this.provider.request(
+      const response = await this.provider.request(
         "EC2",
         "describeSecurityGroups",
         {
@@ -45,28 +17,42 @@ class Ec2SecurityGroupIdFinder {
         console.error("Could not retrieve EC2 security groups: " + err)
         return
       }
-    }
-    if (response.SecurityGroups && response.SecurityGroups.length) {
-      let isFirst = true
-      for (let group of response.SecurityGroups) {
-        let groupName = ""
-        for (let tag of group.Tags) {
-          if (tag.Key == "Name") {
-            groupName = tag.Value
-            if (isFirst) {
-              name = groupName
-              isFirst = false
+
+      this.securityGroupIds = {}
+      if (response.SecurityGroups && response.SecurityGroups.length) {
+        for (let group of response.SecurityGroups) {
+          let groupName
+          for (let tag of group.Tags) {
+            if (tag.Key == "Name") {
+              groupName = tag.Value
+              break
             }
-            break
+          }
+          if (groupName) {
+            this.securityGroupIds[groupName] = group.GroupId
           }
         }
-        this.securityGroupIds[name] = group.GroupId
+      } else {
+        console.error("No security groups found")
       }
-    } else {
-      console.error("No matching security groups found")
     }
 
-    return this.securityGroupIds[name]
+    if (this.securityGroupIds.length <= 0) {
+      console.error("No security groups to search")
+      return
+    }
+
+    let group
+    if (name) {
+      group = this.securityGroupIds[name]
+      if (!group) {
+        console.error(`Security group ${name} not found`)
+      }
+    } else {
+      // There should be only one security group if the user has not provided a name
+      group = this.securityGroupIds[Object.keys(this.securityGroupIds)[0]]
+    }
+    return group
   }
 }
 

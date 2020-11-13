@@ -20,7 +20,6 @@ class ApiGatewayIdFinder {
 
     if (this.apiGatewayIds) {
       if (name) {
-        console.log("Returning " + this.apiGatewayIds[name])
         return this.apiGatewayIds[name]
       }
 
