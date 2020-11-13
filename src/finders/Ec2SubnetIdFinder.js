@@ -13,7 +13,7 @@ class Ec2SubnetIdFinder {
             Name: "tag-key",
             Values: ["Name"],
           }],
-          MaxResults: 50
+          MaxResults: 500
         }
       )
 

@@ -7,7 +7,7 @@ class CognitoUserPoolIdFinder {
         "CognitoIdentityServiceProvider",
         "listUserPools",
         {
-          MaxResults: 50,
+          MaxResults: 500,
         }
       )
       if (response) {

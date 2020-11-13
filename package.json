@@ -1,6 +1,6 @@
 {
   "name": "serverless-find-resource",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Use AWS resource names instead of hardcoded ARNs and IDs in your Serverless templates",
   "main": "src/index.js",
   "directories": {
@@ -42,7 +42,8 @@
     "get subnet",
     "subnet by name",
     "api gateway",
-    "api gateway by name"
+    "api gateway by name",
+    "existing api gateway"
   ],
   "author": "Steve Perkins",
   "license": "MIT",

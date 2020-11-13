@@ -80,3 +80,14 @@ That makes your Serverless template very clean for shared resources like Cognito
 | Security Group    | `SecurityGroupId`   | Group's ID             | `${find:SecurityGroupId:yourGroupName}`      |
 | Subnet            | `SubnetId`          | Subnet's ID            | `${find:SubnetId:yourSubnetName}`            |
 | API Gateway       | `ApiGatewayId`      | API Gateway's ID       | `${find:ApiGatewayId:yourApiGatewayName}`    |
+
+# A note about API Gateway
+Until now Mike Souza's [import-api-gateway plugin](https://github.com/MikeSouza/serverless-import-apigateway) did a great job of working around the CloudFormation constraint that prevents you from attaching lambda HTTP event handlers to an API Gateway NOT created in the same Serverless file (what a weird and limiting requirement, CloudFormation team). On October 20, 2020 Mike deprecated his plugin citing [Serverless' new support for attaching to existing API Gateways](https://www.serverless.com/framework/docs/providers/aws/events/apigateway/#easiest-and-cicd-friendly-example-of-using-shared-api-gateway-and-api-resources). However, Serverless' support does NOT work for REST API Gateways - only for HTTP API Gateways (API Gateway V2). Mike's plugin is still needed. Since it's been deprecated, I've rolled Mike's plugin with [Jason Maldonis' contribution](https://github.com/jjmaldonis) into the ${find:ApiGatewayId} functionality - because if you're trying to access the API Gateway ID, it's almost certain that you're trying to attach resources to an existing API Gateway. Therefore, when you use ${find:ApiGatewayId}, serverless-find-resource will automatically attach your Serverless template's HTTP endpoints to your API Gateway.
+
+An easy way to leverage this functionality in your Serverless template is to add an `apiGateway.restApiId` to your `provider` element:
+
+```
+provider:
+  apiGateway:
+    restApiId: ${find:ApiGatewayId}
+```

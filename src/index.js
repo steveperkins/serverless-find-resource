@@ -27,8 +27,6 @@ class FindResourcePlugin {
   constructor(serverless, options) {
     this.serverless = serverless
     this.provider = this.serverless.providers.aws
-    this.resolvedResources = {}
-    this.userPools = undefined
 
     this.variableResolvers = {
       find: {
@@ -51,6 +49,8 @@ class FindResourcePlugin {
       SubnetId: new Ec2SubnetIdFinder().find.bind(this),
       ApiGatewayId: new ApiGatewayIdFinder().find.bind(this)
     };
+
+    // this.hooks['before:package:setupProviderConfiguration'] = this.importApiGateway.bind(this)
   }
 
   async handleVariable(name) {
