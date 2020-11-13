@@ -1,5 +1,6 @@
 "use strict"
 const CognitoUserPoolIdFinder = require("./finders/CognitoUserPoolIdFinder")
+const CognitoUserPoolArnFinder = require("./finders/CognitoUserPoolArnFinder")
 const LambdaLayerArnFinder = require("./finders/LambdaLayerArnFinder")
 const IamRoleArnFinder = require("./finders/IamRoleArnFinder")
 const IamRoleIdFinder = require("./finders/IamRoleIdFinder")
@@ -42,6 +43,7 @@ class FindResourcePlugin {
 
     this.handlers = {
       CognitoUserPoolId: new CognitoUserPoolIdFinder().find.bind(this),
+      CognitoUserPoolArn: new CognitoUserPoolArnFinder().find.bind(this),
       LambdaLayerArn: new LambdaLayerArnFinder().find.bind(this),
       RoleArn: new IamRoleArnFinder().find.bind(this),
       RoleId: new IamRoleIdFinder().find.bind(this),
@@ -49,8 +51,6 @@ class FindResourcePlugin {
       SubnetId: new Ec2SubnetIdFinder().find.bind(this),
       ApiGatewayId: new ApiGatewayIdFinder().find.bind(this)
     };
-
-    // this.hooks['before:package:setupProviderConfiguration'] = this.importApiGateway.bind(this)
   }
 
   async handleVariable(name) {

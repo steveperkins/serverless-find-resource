@@ -74,6 +74,7 @@ That makes your Serverless template very clean for shared resources like Cognito
 | Type              | Key                 | Returns                | Example                                      |
 | ----------------- | ------------------- | ---------------------- | -------------------------------------------- |
 | Cognito User Pool | `CognitoUserPoolId` | Cognito User Pool's ID | `${find:CognitoUserPoolId:yourUserPoolName}` |
+| Cognito User Pool | `CognitoUserPoolArn`| Cognito User Pool's Arn| `${find:CognitoUserPoolArn:yourUserPoolName}`|
 | IAM Role          | `RoleArn`           | Role's ARN             | `${find:RoleArn:yourRoleName}`               |
 | IAM Role          | `RoleId`            | Role's ID              | `${find:RoleId:yourRoleName}`                |
 | Lambda Layer      | `LambdaLayerArn`    | Latest layer ARN       | `${find:LambdaLayerArn:yourLayerName}`       |

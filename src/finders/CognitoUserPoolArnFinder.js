@@ -1,7 +1,7 @@
-class CognitoUserPoolIdFinder {
+class CognitoUserPoolArnFinder {
   
   async find(name) {
-    if (!this.userPoolIds) {
+    if (!this.userPoolArns) {
       // See for available functions https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Lambda.html
       const response = await this.provider.request(
         "CognitoIdentityServiceProvider",
@@ -11,21 +11,21 @@ class CognitoUserPoolIdFinder {
         }
       )
       if (response) {
-        this.userPoolIds = {}
+        this.userPoolArns = {}
         for (const pool of response.UserPools) {
-          this.userPoolIds[pool.Name] = pool.Id
+          this.userPoolArns[pool.Name] = pool.Arn
         }
       }
     }
 
-    const poolKeys = Object.keys(this.userPoolIds)
+    const poolKeys = Object.keys(this.userPoolArns)
     // If there's only one user pool and no name was provided, just use the only one in AWS
     if (!name && poolKeys.length > 0) {
-      return this.userPoolIds[poolKeys[0]]
+      return this.userPoolArns[poolKeys[0]]
     } else {
-      return this.userPoolIds[name]
+      return this.userPoolArns[name]
     }
   }
 }
 
-module.exports = CognitoUserPoolIdFinder
+module.exports = CognitoUserPoolArnFinder
