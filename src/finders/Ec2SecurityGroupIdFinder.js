@@ -9,7 +9,7 @@ class Ec2SecurityGroupIdFinder {
         "describeSecurityGroups",
         {
           DryRun: false,
-          MaxResults: 500
+          MaxResults: 1000
         }
       )
 
