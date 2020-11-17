@@ -44,37 +44,9 @@ class ApiGatewayIdFinder {
         throw new Error(`No root resource matching ${config.rootPath} exists on API Gateway ${apiGatewayId}`)
       }
 
-      /* If this Serverless template defines lambda functions that should be attached to this API Gateway,
-          consider them "new" resources if an existing resource contains part of their paths
-      */
-      const newResourcePaths = []
-      if (serverless.service.functions) { 
-        for (let [fname, lambda] of Object.entries(serverless.service.functions)) {
-          if (lambda.events) {
-            for (let event of lambda.events) {
-              // We only care about lambdas that define an API Gateway integration
-              if (event.http && event.http.path) {
-                // We have a new HTTP path that needs to get added to the gateway. Check to see if a similar path already exists. If so, add it.
-                for (let path of Object.keys(paths)) {
-                  if (event.http.path.startsWith(path)) {
-                    newResourcePaths.push(path)
-                  }
-                }
-              }
-            }
-          }
-        }
-        config.resources = newResourcePaths
-      }
-
-        // If no paths were found in the Serverless template, we shouldn't need to do anything.
-        // But just in case, let's just use all the paths the API already has.
-        if (newResourcePaths.length == 0) {
-          config.resources = Object.keys(paths)
-        }
-
+      const existingPaths = Object.keys(paths)
       const resourcesToImport = {}
-      for (let resourcePath of config.resources) {
+      for (let resourcePath of existingPaths) {
         const resourceId = paths[resourcePath]
         if (!resourceId) {
           throw new Error(`No path ${resourcePath} found in API Gateway ${apiGatewayId}`)

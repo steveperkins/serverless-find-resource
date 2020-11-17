@@ -1,6 +1,6 @@
 {
   "name": "serverless-find-resource",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Use AWS resource names instead of hardcoded ARNs and IDs in your Serverless templates",
   "main": "src/index.js",
   "directories": {
