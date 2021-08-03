@@ -2,6 +2,10 @@ class CognitoAppClientIdFinder {
 
   async find(name) {
     // Split the name on a period. The expected syntax for `name` is `<UserPoolName>.<AppClientName>`
+    if (!name.includes(".")) {
+      console.error(`Expected the App Client name to be of the form \`<UserPoolName>.<AppClientName>\`. Got \`${name}\``)
+      return
+    }
     const split = name.split(".")
     const userPoolName = split[0];
     const appClientName = split[1];
