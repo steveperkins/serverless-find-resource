@@ -6,10 +6,12 @@ class ApiGatewayAuthorizerIdFinder {
   async find(name) {
     const serverless = this.serverless
     const provider = this.provider
+    let apiGatewayName
+    let apiGatewayAuthorizerName
 
     if (name) {
-      const apiGatewayName = name.split("/")[0]
-      const apiGatewayAuthorizerName = name.split("/")[1]
+      apiGatewayName = name.split("/")[0]
+      apiGatewayAuthorizerName = name.split("/")[1]
     }
 
     const response = await this.provider.request(
