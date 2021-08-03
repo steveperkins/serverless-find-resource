@@ -40,7 +40,7 @@ class ApiGatewayAuthorizerIdFinder {
       }
       const response = await this.provider.request(
         "APIGateway",
-        "getAuthorizerIds",
+        "getAuthorizers",
         {
           restApiId: apiGatewayId,
           limit: "500"
