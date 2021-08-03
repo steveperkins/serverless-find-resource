@@ -52,7 +52,7 @@ class ApiGatewayAuthorizerIdFinder {
           this.apiGatewayAuthorizerIds[authorizer.name] = authorizer.id
         }
       }
-      if (apiGateayAuthorizerName) {
+      if (apiGatewayAuthorizerName) {
           apiGatewayAuthorizerId = this.apiGatewayAuthorizerIds[apiGatewayAuthorizerName]
       } else {
         const keys = Object.keys(this.apiGatewayAuthorzierIds)
