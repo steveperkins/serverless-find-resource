@@ -30,11 +30,13 @@ class ApiGatewayAuthorizerIdFinder {
 
     if (this.apiGatewayIds) {
       let apiGatewayId
-      let apiGatewayAuthorizerId
-      if (apiGatewayName) {
+      if (apiGatewayName && this.apiGatewayIds.hasOwnProperty(apiGatewayName)) {
         apiGatewayId = this.apiGatewayIds[apiGatewayName]
       } else {
-        // If no name was provided, use the first API Gateway
+        // If name is NOT given
+        // Or given as /AuthorizerName(no apiGatewayName)
+        // Or apiGatewayName does not find
+        // Pick up the first apiGatewayId
         const keys = Object.keys(this.apiGatewayIds)
         apiGatewayId = this.apiGatewayIds[keys[0]]
       }
@@ -52,13 +54,12 @@ class ApiGatewayAuthorizerIdFinder {
           this.apiGatewayAuthorizerIds[authorizer.name] = authorizer.id
         }
       }
-      if (apiGatewayAuthorizerName) {
-          apiGatewayAuthorizerId = this.apiGatewayAuthorizerIds[apiGatewayAuthorizerName]
+      const keys = Object.keys(this.apiGatewayAuthorizerIds)
+      if (apiGatewayAuthorizerName && keys.length() > 0 && this.apiGatewayAuthorizerIds.hasOwnProperty(apiGatewayAuthorizerName)) {
+        return this.apiGatewayAuthorizerIds[apiGatewayAuthorizerName]
       } else {
-        const keys = Object.keys(this.apiGatewayAuthorzierIds)
-        apiGatewayAuthorizerId = this.apiGateayAuthorizerIds[keys[0]]
+        return this.apiGatewayAuthorizerIds[keys[0]]
       }
-      return apiGatewayAuthorizerId
     } else {
       console.error("No API Gateways found in AWS")
       serverless.cli.log("No API Gateways found in AWS")
