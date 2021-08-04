@@ -4,27 +4,28 @@
 class ApiGatewayAuthorizerIdFinder {
 
   async find(name) {
-    const serverless = this.serverless
-    const provider = this.provider
-    let apiGatewayName
-    let apiGatewayAuthorizerName
-
-    if (name) {
-      apiGatewayName = name.split("/")[0]
-      apiGatewayAuthorizerName = name.split("/")[1]
+    // Split the name on a period. The expected syntax for `name` is `<ApiGatewayName>.<AuthoerizerName>`
+    if (!name.includes(".")) {
+      console.error(`Expected the Api Gateway Authorizer Name to be of the form \`<ApiGatewayName>.<AuthorizerName>\`. Got \`${name}\``)
+      return
     }
+    const split = name.split(".")
+    const apiGatewayName = split[0]
+    const apiGatewayAuthorizerName = split[1]
 
-    const response = await this.provider.request(
-      "APIGateway",
-      "getRestApis",
-      {
-        limit: "500"
-      }
-    )
-    if (response) {
-      this.apiGatewayIds = {}
-      for (const gateway of response.items) {
-        this.apiGatewayIds[gateway.name] = gateway.id
+    if (!this.apiGatewayIds) {
+      const response = await this.provider.request(
+        "APIGateway",
+        "getRestApis",
+        {
+          limit: "600" // AWS have a hard service quota 600
+        }
+      )
+      if (response) {
+        this.apiGatewayIds = {}
+        for (const gateway of response.items) {
+          this.apiGatewayIds[gateway.name] = gateway.id
+        }
       }
     }
 
@@ -34,7 +35,7 @@ class ApiGatewayAuthorizerIdFinder {
         apiGatewayId = this.apiGatewayIds[apiGatewayName]
       } else {
         // If name is NOT given
-        // Or given as /AuthorizerName(no apiGatewayName)
+        // Or given as .AuthorizerName(no apiGatewayName)
         // Or apiGatewayName does not find
         // Pick up the first apiGatewayId
         const keys = Object.keys(this.apiGatewayIds)
@@ -45,7 +46,7 @@ class ApiGatewayAuthorizerIdFinder {
         "getAuthorizers",
         {
           restApiId: apiGatewayId,
-          limit: "500"
+          limit: "10" // By default, AWS quota is 10 for each API
         }
       )
       if (response) {
@@ -54,8 +55,8 @@ class ApiGatewayAuthorizerIdFinder {
           this.apiGatewayAuthorizerIds[authorizer.name] = authorizer.id
         }
       }
-      const keys = Object.keys(this.apiGatewayAuthorizerIds)
-      if (apiGatewayAuthorizerName && keys.length() > 0 && this.apiGatewayAuthorizerIds.hasOwnProperty(apiGatewayAuthorizerName)) {
+      const authorizersKeys = Object.keys(this.apiGatewayAuthorizerIds)
+      if (apiGatewayAuthorizerName && authorizersKeys.length > 0 && this.apiGatewayAuthorizerIds.hasOwnProperty(apiGatewayAuthorizerName)) {
         return this.apiGatewayAuthorizerIds[apiGatewayAuthorizerName]
       } else {
         return this.apiGatewayAuthorizerIds[keys[0]]
