@@ -8,6 +8,7 @@ const IamRoleIdFinder = require("./finders/IamRoleIdFinder")
 const Ec2SecurityGroupIdFinder = require("./finders/Ec2SecurityGroupIdFinder")
 const Ec2SubnetIdFinder = require("./finders/Ec2SubnetIdFinder")
 const ApiGatewayIdFinder = require("./finders/ApiGatewayIdFinder")
+const ApiGatewayAuthorizerIdFinder = require("./finders/ApiGatewayAuthorizerIdFinder")
 
 const getCircularReplacer = () => {
   const seen = new WeakSet()
@@ -51,7 +52,8 @@ class FindResourcePlugin {
       RoleId: new IamRoleIdFinder().find.bind(this),
       SecurityGroupId: new Ec2SecurityGroupIdFinder().find.bind(this),
       SubnetId: new Ec2SubnetIdFinder().find.bind(this),
-      ApiGatewayId: new ApiGatewayIdFinder().find.bind(this)
+      ApiGatewayId: new ApiGatewayIdFinder().find.bind(this),
+      ApiGatewayAuthorizerId: new ApiGatewayAuthorizerIdFinder().find.bind(this)
     };
   }
 
