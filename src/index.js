@@ -1,6 +1,7 @@
 "use strict"
 const CognitoUserPoolIdFinder = require("./finders/CognitoUserPoolIdFinder")
 const CognitoUserPoolArnFinder = require("./finders/CognitoUserPoolArnFinder")
+const CognitoAppClientIdFinder = require("./finders/CognitoAppClientIdFinder")
 const LambdaLayerArnFinder = require("./finders/LambdaLayerArnFinder")
 const IamRoleArnFinder = require("./finders/IamRoleArnFinder")
 const IamRoleIdFinder = require("./finders/IamRoleIdFinder")
@@ -45,6 +46,7 @@ class FindResourcePlugin {
     this.handlers = {
       CognitoUserPoolId: new CognitoUserPoolIdFinder().find.bind(this),
       CognitoUserPoolArn: new CognitoUserPoolArnFinder().find.bind(this),
+      CognitoAppClientId: new CognitoAppClientIdFinder().find.bind(this),
       LambdaLayerArn: new LambdaLayerArnFinder().find.bind(this),
       RoleArn: new IamRoleArnFinder().find.bind(this),
       RoleId: new IamRoleIdFinder().find.bind(this),
