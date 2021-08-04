@@ -2,7 +2,7 @@ class CognitoUserPoolArnFinder {
   
   async find(name) {
     if (!this.userPoolArns) {
-      // See for available functions https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/Lambda.html
+      // See for available functions https://docs.aws.amazon.com/AWSJavaScriptSDK/latest/AWS/CognitoIdentityServiceProvider.html
       const response = await this.provider.request(
         "CognitoIdentityServiceProvider",
         "listUserPools",
