@@ -52,6 +52,17 @@ provider:
 
 Serverless Find Resource will now replace `${find:CognitoUserPoolId}` with the ID of your AWS account's user pool named `yourUserPoolName`.
 
+A more complex example is for finding an API Gateway Trigger authorizer lambda ID:
+```
+XXXApigatewayTrigger:
+      Type: AWS::Lambda::Permission
+      Properties:
+        Action: lambda:InvokeFunction
+        FunctionName: !GetAtt AuthorizeLambdaFunction.Arn
+        Principal: apigateway.amazonaws.com
+        SourceArn: arn:aws:execute-api:${self:config.region}:${self:config.accountNo}:${find:ApiGatewayId:ApiGatewayName}/authorizers/${find:ApiGatewayAuthorizerId:ApiGatewayName/lambdaAuthorizerName}
+```
+
 ### Spaces
 Some AWS resource names can have spaces. For example, a VPC subnet could be named something like "Private Subnet". Serverless removes all spaces before passing the value to the variable resolver, so in such cases you have to enclose the value in single quotes in order to preserve the spaces:
 

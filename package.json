@@ -44,7 +44,11 @@
     "api gateway",
     "api gateway by name",
     "existing api gateway",
-    "share api gateway"
+    "share api gateway",
+	"api gateway authorizer",
+	"authorizer id",
+	"cognito client id",
+	"cognito app client id"
   ],
   "author": "Steve Perkins",
   "license": "MIT",
