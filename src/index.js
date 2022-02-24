@@ -31,9 +31,9 @@ class FindResourcePlugin {
     this.serverless = serverless
     this.provider = this.serverless.providers.aws
 
-    this.variableResolvers = {
+    this.configurationVariablesSources = {
       find: {
-        resolver: this.handleVariable,
+        resolve: this.handleVariable,
         serviceName: "find: can't be used for stage, region, or credentials",
         isDisabledAtPrepopulation: true
       },
@@ -57,14 +57,14 @@ class FindResourcePlugin {
     };
   }
 
-  async handleVariable(name) {
+  async handleVariable({ address: name }) {
     const segments = name.split(":")
-    const resourceType = segments[1]
+    const resourceType = segments[0]
 
     if (Static.this.handlers[resourceType]) {
       let resourceName;
-      if (segments.length > 2) {
-        resourceName = segments[2].replace(/'/g, "")
+      if (segments.length > 1) {
+        resourceName = segments[1].replace(/'/g, "")
       }
 
       const transformed = await Static.this.handlers[resourceType](
@@ -79,7 +79,7 @@ class FindResourcePlugin {
             "'"
         );
       }
-      return transformed
+      return { value: transformed }
     }
   }
 
