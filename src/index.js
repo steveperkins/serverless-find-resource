@@ -31,15 +31,29 @@ class FindResourcePlugin {
     this.serverless = serverless
     this.provider = this.serverless.providers.aws
 
+    this.handleVariable.bind(this)
+
+    // v2 variable resolver
     this.variableResolvers = {
       find: {
-        resolver: this.handleVariable,
+        resolver: this.handleVariableV2,
         serviceName: "find: can't be used for stage, region, or credentials",
         isDisabledAtPrepopulation: true
-      },
+      }
     };
 
-    this.handleVariable.bind(this)
+    this.handleVariableV2.bind(this)
+
+    // v3 variable resolver
+    this.configurationVariablesSources = {
+      find: {
+        resolve: this.handleVariableV3,
+        serviceName: "find: can't be used for stage, region, or credentials",
+        isDisabledAtPrepopulation: true
+      }
+    };
+
+    this.handleVariableV3.bind(this)
 
     Static.this = this
 
@@ -57,14 +71,16 @@ class FindResourcePlugin {
     };
   }
 
-  async handleVariable(name) {
+  async handleVariable(name, slsVersion) {
     const segments = name.split(":")
-    const resourceType = segments[1]
+    // In v3 Serverless removes the "find" token from the name string passed to us
+    const firstSegmentIndex = "v3" === slsVersion ? 0 : 1
+    const resourceType = segments[firstSegmentIndex]
 
     if (Static.this.handlers[resourceType]) {
       let resourceName;
-      if (segments.length > 2) {
-        resourceName = segments[2].replace(/'/g, "")
+      if (segments.length > firstSegmentIndex + 1) {
+        resourceName = segments[firstSegmentIndex + 1].replace(/'/g, "")
       }
 
       const transformed = await Static.this.handlers[resourceType](
@@ -81,6 +97,15 @@ class FindResourcePlugin {
       }
       return transformed
     }
+  }
+
+  async handleVariableV2(name) {
+    return Static.this.handleVariable(name, "v2")
+  }
+
+  async handleVariableV3({ address }) {
+    const variableValue = await Static.this.handleVariable(address, "v3")
+    return { value: variableValue }
   }
 
 }
