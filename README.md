@@ -105,3 +105,7 @@ provider:
   apiGateway:
     restApiId: ${find:ApiGatewayId}
 ```
+
+# A note about Serverless v1, v2, and v3 variable resolvers
+
+Serverless v3 introduced a new, backwards-incompatible plugin variable resolver in v3. `serverless-find-resource` supports v1 (now deprecated), v2, and v3. Make sure to put `frameworkVersion: '3'` at the top of your .serverless file if you want to use v3 plugin variable resolution. Thank you @wktk for raising a PR for this.
